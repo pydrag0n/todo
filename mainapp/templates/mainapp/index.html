@@ -4,15 +4,26 @@
 
 
 {% block content %}
-<form action="">
-        <div class="input-todo-title">
-            <input type="text" placeholder="Your task...">
-        </div>
-</form>
-<!-- !!!add loop for geting tasks!!! -->
-<div class="tasks-container">
-    <div class="title"></div>
-
+<!-- переписать всю эту фигню -->
+<div class="input-div">
+    <form method="post" action="/todo/add">
+        {% csrf_token %}
+        <input type="text" name="task-text-input" placeholder="Your task...">
+        <input type="submit" value="+">
+    </form>
 </div>
 
+{% for todo in tasks %}
+<div class="list-group-item">
+   
+    <form method="post" action="/todo/{{ todo.id }}/update">
+        {% csrf_token %}
+        <div class="checkbox-checked"><input type="checkbox" name="isCompleted" onchange="this.form.submit()"></div>
+    </form>
+    <a href="/todo/{{ todo.id }}/delete" title="Delete">
+        {{ todo.title }}
+    </a>
+</div>
+
+{% endfor %}
 {% endblock %}
