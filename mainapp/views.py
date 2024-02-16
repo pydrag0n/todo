@@ -17,12 +17,12 @@ def add(request):
     
 def update(request, id):
     checkbox_answer = {"on": True, "off": False}
-    isComplete_checkbox = request.POST.get('isCompleted', None)
+    isComplete_checkbox = request.POST.get('isCompleted', "off")
     update_checkbox = TodoModel.objects.get(pk=id)
     if not isComplete_checkbox is None:
-        TodoModel.objects.filter(pk=id).update(
-            isCompleted=checkbox_answer[isComplete_checkbox]
-            )
+        update_checkbox.isCompleted=checkbox_answer[isComplete_checkbox] 
+        update_checkbox.save()
+        print(checkbox_answer[isComplete_checkbox], isComplete_checkbox)
     return redirect("/todo/")
 
 def delete(request, id):

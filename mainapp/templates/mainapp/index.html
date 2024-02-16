@@ -1,27 +1,32 @@
+
 {% extends 'base.html' %}
 
 {% block title %}todo{% endblock %}
 
 
 {% block content %}
-<!-- переписать всю эту фигню -->
 <div class="input-div">
     <form method="post" action="/todo/add">
         {% csrf_token %}
-        <input type="text" name="task-text-input" placeholder="Your task...">
-        <input type="submit" value="+">
+        <input class="task-input" type="text" name="task-text-input" placeholder="Your task...">
+        <input class="submit-button" type="submit" value="+">
     </form>
 </div>
 
 {% for todo in tasks %}
 <div class="list-group-item">
-   
+
     <form method="post" action="/todo/{{ todo.id }}/update">
         {% csrf_token %}
-        <div class="checkbox-checked"><input type="checkbox" name="isCompleted" onchange="this.form.submit()"></div>
+        
+        <div class="checkbox-checked"><input type="checkbox" name="isCompleted" onchange="this.form.submit()" {% if todo.isCompleted %} checked {% endif %}></div>
     </form>
-    <a href="/todo/{{ todo.id }}/delete" title="Delete">
-        {{ todo.title }}
+    <div class="tasks-list">
+        <div class="title">{{ todo.title }}</div>
+        <a href="/todo/{{ todo.id }}/delete" title="Delete">
+            <button >del</button>
+    </div>
+
     </a>
 </div>
 
